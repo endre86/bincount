@@ -31,7 +31,7 @@ public class Main
 
 		boolean writeOutput = false;
 		long countdownTime = 30;
-		long endBlinkTime = 10;
+		int numEndBlinks = 10;
 
 		for(int i = 0; i < args.length; i++) {
 			switch(args[i].toLowerCase()) {
@@ -48,10 +48,10 @@ public class Main
 						System.exit(-1);
 					}
 					break;
-				case "-e":
+				case "-l":
 					i += 1; // go direct to next to get the time value
 					if(args.length > i) {
-						endBlinkTime = Long.parseLong(args[i]);
+						int numEndBlinks = args[i];	
 					}
 					else {
 						System.out.println("-e must be followed by numerical time to count down");
@@ -62,8 +62,8 @@ public class Main
 				case "--help":
 					System.out.println("Commands:\n" +
 											"\t-t [seconds: int]\n\t\ttime to count down\n" +
-											"\t-e [seconds: int]\n\t\ttime to blink lights when countdown is finished\n" +
-											"\t-o\n\t\t output countdown in terminal");
+											"\t-l [loops: int]\n\t\tHow many times (loops) to blink all lights when countdown is finished.\n" +
+											"\t-o\n\t\t output countdown in terminal.");
 					System.exit(0);
 					break;
 			}
@@ -73,7 +73,7 @@ public class Main
 		main.turnAllOff();
 		main.countdown((countdownTime + 1) * 1000 ,writeOutput); // +1 because of delay. lets face it, this is not a serious application :P
 		main.turnAllOff();
-		main.blinkAllLights(200, 500, endBlinkTime * 1000);
+		main.blinkAllLights(200, 500, numEndBlinks);
 		main.turnAllOff();
 		System.exit(0);	
 	}
@@ -146,9 +146,8 @@ public class Main
 			}
 	}
 
-	public void blinkAllLights(int pulseTime, int pauseTime, long duration) {
-		long startTime = System.currentTimeMillis();	
-		while(startTime + duration > System.currentTimeMillis())
+	public void blinkAllLights(int pulseTime, int pauseTime, int numLoops) {
+		for(int loop = 0; loop < numLoops; loop++)
 		{
 			GREEN.pulse(pulseTime);
 			RED.pulse(pulseTime);
