@@ -51,7 +51,7 @@ public class Main
 				case "-l":
 					i += 1; // go direct to next to get the time value
 					if(args.length > i) {
-						int numEndBlinks = args[i];	
+						numEndBlinks = Integer.parseInt(args[i]);	
 					}
 					else {
 						System.out.println("-e must be followed by numerical time to count down");
